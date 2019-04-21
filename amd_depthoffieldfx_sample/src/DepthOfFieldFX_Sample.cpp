@@ -628,7 +628,7 @@ void SetCameraProjectionParameters()
     float fov = 2 * atan(0.5f * g_sensorWidth / g_FocalLength);
     // Setup the camera's projection parameters
     FLOAT fAspectRatio = (float)g_ScreenWidth / (float)g_ScreenHeight;
-    g_Viewer.SetProjParams(fov, fAspectRatio, 0.1f, 200.0f);
+    g_Viewer.SetProjParams(fov, fAspectRatio, 1.0f, 100.0f);
 }
 
 
@@ -670,18 +670,21 @@ HRESULT CALLBACK OnD3D11ResizedSwapChain(ID3D11Device* pd3dDevice, IDXGISwapChai
     // App specific resources
     // scene render target
     g_appColorBuffer.Release();
-    hr = g_appColorBuffer.CreateSurface(pd3dDevice, pSurfaceDesc->Width, pSurfaceDesc->Height, pSurfaceDesc->SampleDesc.Count, 1, 1, DXGI_FORMAT_R8G8B8A8_TYPELESS, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-                                        DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_UNKNOWN, D3D11_USAGE_DEFAULT, false, 0, NULL, NULL, 0);
+	hr = g_appColorBuffer.CreateSurface(pd3dDevice, pSurfaceDesc->Width, pSurfaceDesc->Height, pSurfaceDesc->SampleDesc.Count, 1, 1,
+		DXGI_FORMAT_R8G8B8A8_TYPELESS, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
+		DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_UNKNOWN, D3D11_USAGE_DEFAULT, false, 0, NULL, NULL, 0);
 
     // scene depth buffer
     g_appDepthBuffer.Release();
-    hr = g_appDepthBuffer.CreateSurface(pd3dDevice, pSurfaceDesc->Width, pSurfaceDesc->Height, pSurfaceDesc->SampleDesc.Count, 1, 1, DXGI_FORMAT_R32_TYPELESS, DXGI_FORMAT_R32_FLOAT,
-                                        DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_D32_FLOAT, DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_UNKNOWN, D3D11_USAGE_DEFAULT, false, 0, NULL, NULL, 0);
+    hr = g_appDepthBuffer.CreateSurface(pd3dDevice, pSurfaceDesc->Width, pSurfaceDesc->Height, pSurfaceDesc->SampleDesc.Count, 1, 1,
+		DXGI_FORMAT_R32_TYPELESS, DXGI_FORMAT_R32_FLOAT,DXGI_FORMAT_UNKNOWN,
+		DXGI_FORMAT_D32_FLOAT, DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_UNKNOWN, D3D11_USAGE_DEFAULT, false, 0, NULL, NULL, 0);
 
     // circle of confusion target
     g_appCoCTexture.Release();
-    hr = g_appCoCTexture.CreateSurface(pd3dDevice, pSurfaceDesc->Width, pSurfaceDesc->Height, pSurfaceDesc->SampleDesc.Count, 1, 1, DXGI_FORMAT_R16_FLOAT, DXGI_FORMAT_R16_FLOAT, DXGI_FORMAT_UNKNOWN,
-                                       DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_R16_FLOAT, DXGI_FORMAT_UNKNOWN, D3D11_USAGE_DEFAULT, false, 0, NULL, NULL, 0);
+    hr = g_appCoCTexture.CreateSurface(pd3dDevice, pSurfaceDesc->Width, pSurfaceDesc->Height, pSurfaceDesc->SampleDesc.Count, 1, 1,
+		DXGI_FORMAT_R16_FLOAT, DXGI_FORMAT_R16_FLOAT, DXGI_FORMAT_UNKNOWN,
+		DXGI_FORMAT_UNKNOWN, DXGI_FORMAT_R16_FLOAT, DXGI_FORMAT_UNKNOWN, D3D11_USAGE_DEFAULT, false, 0, NULL, NULL, 0);
 
     // Depth Of Feild Result surface
     g_appDofSurface.Release();

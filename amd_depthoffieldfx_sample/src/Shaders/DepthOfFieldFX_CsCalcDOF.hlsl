@@ -39,16 +39,31 @@ cbuffer CalcDOFParams
 };
 
 
+//float CocFromDepth(float sceneDepth, float focusDistance, float fStop, float focalLength)
+//{
+//	const float cocScale = (1.0f/fStop) * focalLength * (zFar - zNear) / ((focusDistance - focalLength)*zNear*zFar);
+//	const float CoCBias = ((1.0f / fStop) * focalLength * (zNear - focusDistance)) / ((focusDistance * focalLength) * zNear);
+//    
+//	const float distanceToLense = sceneDepth - focalLength;
+//
+//	float       coc = (distanceToLense > 0.0) ? sceneDepth * cocScale + CoCBias : 0;
+//
+//    coc = clamp(coc * float(ScreenParams.x) * 0.5, -maxRadius, maxRadius);
+//
+//    return coc;
+//}
+
+
 float CocFromDepth(float sceneDepth, float focusDistance, float fStop, float focalLength)
 {
-    const float cocScale             = (focalLength * focalLength) / fStop;  // move to constant buffer
-    const float distanceToLense      = sceneDepth - focalLength;
-    const float distanceToFocusPlane = distanceToLense - focusDistance;
-    float       coc                  = (distanceToLense > 0.0) ? (cocScale * (distanceToFocusPlane / distanceToLense)) : 0.0;
+	const float cocScale = (focalLength*focalLength) / fStop;  // move to constant buffer
+	const float distanceToLense = sceneDepth - focalLength;
+	const float distanceToFocusPlane = focusDistance;
+	float       coc = (distanceToLense > 0.0) ? (cocScale * (distanceToFocusPlane / distanceToLense)) : 0.0;
 
-    coc = clamp(coc * float(ScreenParams.x) * 0.5, -maxRadius, maxRadius);
+	coc = clamp(coc * float(ScreenParams.x) * 0.5, -maxRadius, maxRadius);
 
-    return coc;
+	return coc;
 }
 
 ///////////////////////////////////////
