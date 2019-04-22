@@ -467,7 +467,7 @@ BOOL DEPTHOFFIELDFX_OPAQUE_DESC::update_constant_buffer(const DEPTHOFFIELDFX_DES
         pParams->invSourceResolution.x = 1.0f / static_cast<float>(desc.m_screenSize.x);
         pParams->invSourceResolution.y = 1.0f / static_cast<float>(desc.m_screenSize.y);
         pParams->padding               = desc.m_pOpaque->m_padding;
-        pParams->scale_factor          = float(1 << desc.m_scaleFactor);
+	        pParams->scale_factor          = float(1 << desc.m_scaleFactor);
         memcpy(pParams->bartlettData, s_bartlettData, sizeof(s_bartlettData));
         memcpy(pParams->boxBartlettData, s_boxBartlettData, sizeof(s_boxBartlettData));
 

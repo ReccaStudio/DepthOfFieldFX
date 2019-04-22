@@ -101,7 +101,8 @@ void WriteToBuffer(RWTexToUse buffer, int2 addr2d, int4 color)
 void WriteToBufferTransposed(RWTexToUse buffer, int2 addr2d, int4 color)
 {
     const int offset = GetOffsetTransposed(addr2d);
-    buffer[offset]   = color;
+
+	InterlockedAdd(buffer[offset], color);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,7 +264,7 @@ void VerticalIntegrate(uint3 Tid : SV_DispatchThreadID, uint3 Gid : SV_GroupID)
 
     if (int(Tid.x) < bufferResolution.x)
     {
-        int2 addr = int2(Tid.x, 0);
+        int2 addr = int2(Tid.x, 0);//Ã¿¸öÏñËØµã
 
         // Initialization/////////////////////////////////////
         // We want delta and color to be the same
@@ -290,6 +291,13 @@ void VerticalIntegrate(uint3 Tid : SV_DispatchThreadID, uint3 Gid : SV_GroupID)
             // Write the delta integrated value to the output
             WriteToBufferTransposed(intermediate_transposed, addr, color);
         }
+
+		//[loop] for (uint i = 0; i < chunkEnd; ++i)
+		//{
+		//	addr = int2(Tid.x, i);
+		//	// Write the delta integrated value to the output
+		//	WriteToBufferTransposed(intermediate_transposed, addr, color);
+		//}
     }
 }
 
